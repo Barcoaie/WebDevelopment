@@ -1,0 +1,49 @@
+﻿@using Lab9_Barcan_Florin_George_921.DataAbstractionLayer;
+@using Lab9_Barcan_Florin_George_921.Models;
+
+
+@{
+    var Author_Name = "";
+    var Author_ID = "";
+
+    if (!IsPost)
+    {
+        if (!Request.QueryString["Author_ID"].IsEmpty() && Request.QueryString["Author_ID"].IsInt())
+        {
+            Author_ID = Request.QueryString["Author_ID"];
+            DAL dal = new DAL();
+            Author author = dal.GetAuthor(int.Parse(Author_ID));
+            Author_Name = author.Author_Name;
+        }
+    }
+
+    if (IsPost && !Request["deleteBtn"].IsEmpty())
+    {
+        Author_ID = Request.Form["Author_ID"];
+        DAL dal = new DAL();
+        dal.DeleteAuthor(int.Parse(Author_ID));
+    }
+}
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DeleteAuthor</title>
+</head>
+<body>
+    <!--@Html.ValidationSummary()-->
+    <p><a href="~/Main/ViewGetAuthors">Return to the list of authors</a></p>
+    <form method="post">
+        <fieldset>
+            <legend>Author Info</legend>
+            <p><span>Author Name:</span><span>@Author_Name</span></p>
+            <input type="hidden" name="Author_ID" value="@Author_ID" />
+            <p><input type="submit" name="deleteBtn" value="Delete Author" /></p>
+        </fieldset>
+    </form>
+</body>
+</html>

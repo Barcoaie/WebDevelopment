@@ -1,0 +1,49 @@
+﻿@using Lab9_Barcan_Florin_George_921.DataAbstractionLayer;
+@using Lab9_Barcan_Florin_George_921.Models;
+
+@{
+    var Author_Name = "";
+    var Author_ID = "";
+
+    if (!IsPost)
+    {
+        if (!Request.QueryString["Author_ID"].IsEmpty() && Request.QueryString["Author_ID"].IsInt())
+        {
+            Author_ID = Request.QueryString["Author_ID"];
+            DAL dal = new DAL();
+            Author author = dal.GetAuthor(int.Parse(Author_ID));
+            Author_Name = author.Author_Name;
+        }
+    }
+    if (IsPost && !Request["updateBtn"].IsEmpty())
+    {
+        Author_ID = Request.Form["Author_ID"];
+        Author_Name = Request.Form["Author_Name"];
+        DAL dal = new DAL();
+        dal.UpdateAuthor(int.Parse(Author_ID), Author_Name);
+    }
+}
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EditAuthor</title>
+</head>
+<body>
+    <!--@Html.ValidationSummary()-->
+    <p><a href="~/Main/ViewGetAuthors">Return to the list of authors</a></p>
+    <form method="post">
+        <fieldset>
+            <legend>Author Info</legend>
+            <p><label for="Author_Name">Author Name:</label><input type="text" name="Recipe_Name" value="@Author_Name" /></p>
+            <input type="hidden" name="Author_ID" value="@Author_ID" />
+            <p><input type="submit" name="updateBtn" value="Edit Author" /></p>
+        </fieldset>
+    </form>
+</body>
+</html>
+

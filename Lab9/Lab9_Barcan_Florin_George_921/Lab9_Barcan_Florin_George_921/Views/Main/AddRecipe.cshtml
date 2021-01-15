@@ -1,0 +1,57 @@
+﻿@using Lab9_Barcan_Florin_George_921.DataAbstractionLayer;
+@using Lab9_Barcan_Florin_George_921.Models;
+
+
+@{
+
+    var Recipe_Name = "";
+    var Recipe_Ingredients = "";
+    var Recipe_Instructions = "";
+    var Recipe_Author_ID = "";
+
+    if (IsPost) {
+        if(!Request.QueryString["Recipe_Author_ID"].IsEmpty() && Request.QueryString["Recipe_Author_ID"].IsInt())
+        {
+            Recipe_Author_ID = Request.QueryString["Recipe_Author_ID"];
+            Recipe_Name = Request.Form["Recipe_Name"];
+            Recipe_Ingredients = Request.Form["Recipe_Ingredients"];
+            Recipe_Instructions = Request.Form["Recipe_Instructions"];
+            DAL dal = new DAL();
+            dal.AddRecipe(int.Parse(Recipe_Author_ID), Recipe_Ingredients, Recipe_Instructions, Recipe_Name);
+        }
+    }
+}
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AddRecipe</title>
+</head>
+<body>
+    <!--@Html.ValidationSummary()-->
+    <p><a href="~/Main/ViewGetRecipes">Return to the list of recipes</a></p>
+    <form method="post">
+        <fieldset>
+            <legend>Recipe info</legend>
+            <p>
+                <label for="Recipe_Name">Recipe Name:</label><input type="text" name="Recipe_Name" value="@Request.Form["Recipe_Name"]" />
+                <!--@Html.ValidationMessage("Recipe_Name")-->
+            </p>
+            <p>
+                <label for="Recipe_Ingredients">Recipe Ingredients:</label><input type="text" name="Recipe_Ingredients" value="@Request.Form["Recipe_Ingredients"]" />
+                <!--@Html.ValidationMessage("Recipe_Ingredients")-->
+            </p>
+            <p>
+                <label for="Recipe_Instructions">Recipe Instructions:</label><input type="text" name="Recipe_Instructions" value="@Request.Form["Recipe_Instructions"]" />
+                <!--@Html.ValidationMessage("Recipe_Instructions")-->
+            </p>
+            <p><input type="submit" name="addBtn" value="Add Recipe" /></p>
+        </fieldset>
+    </form>
+</body>
+</html>
+

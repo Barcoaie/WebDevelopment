@@ -1,0 +1,41 @@
+﻿@using Lab9_Barcan_Florin_George_921.DataAbstractionLayer;
+@using Lab9_Barcan_Florin_George_921.Models;
+
+
+@{
+
+    var Author_Name = "";
+
+    if (IsPost)
+    {
+        Author_Name = Request.Form["Author_Name"];
+        DAL dal = new DAL();
+        dal.AddAuthor(Author_Name);
+    }
+}
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AddAuthor</title>
+</head>
+<body>
+    <!--@Html.ValidationSummary()-->
+    <p><a href="~/Main/ViewGetAuthors">Return to the list of authors</a></p>
+    <form method="post">
+        <fieldset>
+            <legend>Author info</legend>
+            <p>
+                <label for="Author_Name">Author Name:</label><input type="text" name="Author_Name" value="@Request.Form["Author_Name"]" />
+                <!--@Html.ValidationMessage("Recipe_Name")-->
+            </p>
+            <p><input type="submit" name="addBtn" value="Add Author" /></p>
+        </fieldset>
+    </form>
+</body>
+</html>
+

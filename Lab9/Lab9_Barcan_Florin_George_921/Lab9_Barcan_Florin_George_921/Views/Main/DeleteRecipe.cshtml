@@ -1,0 +1,55 @@
+﻿@using Lab9_Barcan_Florin_George_921.DataAbstractionLayer;
+@using Lab9_Barcan_Florin_George_921.Models;
+
+
+@{
+    var Recipe_Name = "";
+    var Recipe_Ingredients = "";
+    var Recipe_Instructions = "";
+    var Recipe_ID = "";
+
+    if (!IsPost)
+    {
+        if (!Request.QueryString["Recipe_ID"].IsEmpty() && Request.QueryString["Recipe_ID"].IsInt())
+        {
+            Recipe_ID = Request.QueryString["Recipe_ID"];
+            DAL dal = new DAL();
+            Recipe recipe = dal.GetRecipe(int.Parse(Recipe_ID));
+            Recipe_Name = recipe.Recipe_Name;
+            Recipe_Ingredients = recipe.Recipe_Ingredients;
+            Recipe_Instructions = recipe.Recipe_Instructions;
+        }
+    }
+
+    if (IsPost && !Request["deleteBtn"].IsEmpty())
+    {
+        Recipe_ID = Request.Form["Recipe_ID"];
+        DAL dal = new DAL();
+        dal.DeleteRecipe(int.Parse(Recipe_ID));
+    }
+}
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DeleteRecipe</title>
+</head>
+<body>
+    <!--@Html.ValidationSummary()-->
+    <p><a href="~/Main/ViewGetRecipes">Return to the list of recipes</a></p>
+    <form method="post">
+        <fieldset>
+            <legend>Recipe Info</legend>
+            <p><span>Recipe Name:</span><span>@Recipe_Name</span></p>
+            <p><span>Recipe Ingredients:</span><span>@Recipe_Ingredients</span></p>
+            <p><span>Recipe Instructions:</span><span>@Recipe_Instructions</span></p>
+            <input type="hidden" name="Recipe_ID" value="@Recipe_ID" />
+            <p><input type="submit" name="deleteBtn" value="Delete Recipe" /></p>
+        </fieldset>
+    </form>
+</body>
+</html>

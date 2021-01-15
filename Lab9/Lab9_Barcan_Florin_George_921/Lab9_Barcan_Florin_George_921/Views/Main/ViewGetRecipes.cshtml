@@ -1,0 +1,78 @@
+﻿
+@using Lab9_Barcan_Florin_George_921.Models;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ViewGetRecipes</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        table {
+            height: 100%;
+            width: 100%;
+        }
+
+        th {
+            background-color: darkgreen;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        tr:nth-child(even) {
+            background-color: greenyellow;
+        }
+
+        tr:nth-child(2n+1) {
+            background-color: palegreen;
+        }
+
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        input {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        @{ 
+            List<Recipe> recipes = (List<Recipe>)ViewData["recipeList"];
+        }
+        <table>
+            <tr>
+                <th>Recipe_ID</th>
+                <th>Recipe_Author_ID</th>
+                <th>Recipe_Name</th>
+                <th>Recipe_Ingredients</th>
+                <th>Recipe_Instructions</th>
+            </tr>
+            @foreach (Recipe recipe in recipes)
+            {
+            <tr>
+                <td>@recipe.Recipe_ID</td>
+                <td>@recipe.Recipe_Author_ID</td>
+                <td>@recipe.Recipe_Name</td>
+                <td>@recipe.Recipe_Ingredients</td>
+                <td>@recipe.Recipe_Instructions</td>
+                <td><a href="~/Main/DeleteRecipe?Recipe_ID=@recipe.Recipe_ID">DELETE</a></td>
+                <td><a href="~/Main/EditRecipe?Recipe_ID=@recipe.Recipe_ID">EDIT</a></td>
+            </tr>
+            }
+        </table>
+    </div>
+    <p><a href="~/Main/ViewGetAuthors">View list of Authors</a></p>
+</body>
+</html>

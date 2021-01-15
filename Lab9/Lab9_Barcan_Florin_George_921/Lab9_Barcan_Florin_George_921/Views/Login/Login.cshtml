@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#loginBtn").click(function () {
+                $.get("/Main/Login", {
+                    user_name: $("#user_name").val(),
+                    pass_word: $("#pass_word").val(),
+                }, function (data, status) {
+                    $("#maindiv").html(data);
+                });
+            });
+        });
+    </script>
+    <style>
+        form {
+            padding-top: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/Login/Login" method="post">
+        Username: <input id="user_name" type="text" name="user_name"/><br />
+        Password: <input id="pass_word" type="password" name="pass_word"/><br />
+        <input id="loginBtn" type="submit" value="Login"/>
+    </form>
+    <br />
+    <br />
+    <br />
+    <div id="maindiv"></div>
+</body>
+</html>
